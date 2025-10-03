@@ -1,0 +1,61 @@
+/*
+CORES:
+CINZA: #A6A6A6
+BRANCO: #F2F2F2
+BEGE ESCURO: #735134
+BEGE CLARO: #BFAB93
+BEGE AMARELADO: #BF925A
+
+FONTES:
+font-family: "Noto Sans", sans-serif;
+*/
+
+@media screen and (max-width: 630px) {
+  /****************
+    Menu Hamburger
+*****************/
+  header nav#nav-esq {
+    justify-content: space-between;
+  }
+
+  header nav#nav-esq ul#icone-menu {
+    display: flex;
+  }
+
+  header nav#nav-esq ul#icone-menu {
+    display: flex;
+  }
+  eader nav#nav-esq ul#icone-menu li#menux {
+    display: none;
+  }
+  /****************
+    Menu 
+*****************/
+  header nav#nav-esq ul#menu-principal {
+    flex-direction: column;
+    width: 80%;
+    height: 85vh;
+    background: linear-gradient(
+      to bottom,
+      #a6a6a611 0%,
+      #a6a6a61c 45%,
+      #a6a6a631 100%
+    );
+
+    padding-top: 0.5rem;
+    position: absolute;
+    top: 6.28rem;
+    right: 0;
+    z-index: 999;
+
+    display: none;
+  }
+  header nav#nav-esq ul#menu-principal li {
+    margin: 0.5rem;
+    margin-left: 1rem;
+  }
+  header nav#nav-esq ul#menu-principal li a {
+    font-size: 120%;
+    font-family: "Noto Sans", sans-serif;
+  }
+}
