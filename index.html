@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--Estilização com css-->
     <link rel="stylesheet" href="./styles/styles.css" />
     <link rel="stylesheet" href="./styles/mobile.css" />
-    <link rel="stylesheet" href="./bootstrap-5.3.8-dist/css/bootstrap.min.css" />
-    <!--Fontes-->
+    <link
+      rel="stylesheet"
+      href="./bootstrap-5.3.8-dist/css/bootstrap.min.css"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,140 +17,110 @@
       rel="stylesheet"
     />
 
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"
+    ></script>
+
     <title>Biblioteca Musical</title>
   </head>
-  <!--Conteúdo da página-->
+
   <body>
     <header>
-        <!--Navbar-->
-        <nav id="nav-esq">
-            <div id="logo">
+      <nav id="nav-esq">
+        <div id="logo">
+          <a href="#ListagemMusicas">Biblioteca<br />Musical</a>
+        </div>
 
-                <a href="#">Biblioteca<br>Musical</a>
+        <ul id="icone-menu">
+          <li id="menu"><ion-icon name="menu-outline"></ion-icon></li>
+          <li id="menux"><ion-icon name="close-outline"></ion-icon></li>
+        </ul>
 
-            </div>
-
-           
-
-            <ul id="icone-menu">
-                <li id="menu"><ion-icon name="menu-outline"></ion-icon> </li>
-                <li id="menux"><ion-icon name="close-outline"></ion-icon></li>
-            </ul>
-
-            <!--Menu principal-->
-            <ul id="menu-principal">
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Cantores</a></li>
-                <li><a href="#">Adicionar Música</a></li>
-
-            </ul>
+        <ul id="menu-principal">
+          <li><a href="#ListagemMusicas">Início</a></li>
+          <li><a href="#PorCantores">Filtrar por Cantor</a></li>
+          <li><a href="#AdicionarMusica">Adicionar Música</a></li>
+        </ul>
+      </nav>
     </header>
 
-   
-
-    <!--Main-->
-
     <main>
+      <section class="ListagemMusicas" id="ListagemMusicas">
+        <h1>Listagem de Músicas</h1>
+      </section>
 
-      <!--Listagem de músicas-->
-        <section class="ListagemMusicas">
-          <h1>Listagem de Músicas</h1>
-            <div class="card" style="width: 18rem;">
-              <img src="./images/headerCapaM.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Nome da Música</h5>
-                <h6 class="">Artista</h6>
-                <a href="#" class="btn btn-danger">Youtube</a>
-                <!-- <a href="#" class="btn btn-secondary">Editar</a> -->
-              </div>
-            </div>
-        </section>
+      <section class="PorCantores" id="PorCantores">
+        <h1>Filtrar por Cantor</h1>
 
-      <!--Por Cantores-->
-        <section class="PorCantores">
-          <h1>Por Cantores</h1>
-          <h2>Cantor 1</h2>
-          <div class="card" style="width: 18rem;">
-              <img src="./images/headerCapaM.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Nome da Música</h5>
-                <h6 class="">Artista</h6>
-                <a href="#" class="btn btn-danger">Youtube</a>
-                <!-- <a href="#" class="btn btn-secondary">Editar</a> -->
-              </div>
-            </div>
+        <select id="filtroCantorSelect" class="form-select mb-3">
+          <option value="Selecione">Selecione o Cantor</option>
+        </select>
+      </section>
 
-          <h2>Cantor 2</h2>
-          <div class="card" style="width: 18rem;">
-              <img src="./images/headerCapaM.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Nome da Música</h5>
-                <h6 class="">Artista</h6>
-                <a href="#" class="btn btn-danger">Youtube</a>
-                <!-- <a href="#" class="btn btn-secondary">Editar</a> -->
-              </div>
-            </div>
-        </section>section>
+      <section class="AdicionarMusica" id="AdicionarMusica">
+        <h1>Adicionar uma música</h1>
 
-        <!--Adicionar uma Música-->
-        <section class="AdicionarMusica">
-          <h1>Adicionar uma música</h1>
+        <label class="form-label">Nome da Música</label>
+        <div class="input-group mb-3 nome">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Te Agradeço, Digno é o Senhor..."
+            aria-label="Nome da Música"
+          />
+        </div>
 
-          <label  class="form-label">Nome da Música</label>
-          <div class="input-group mb-3 nome">
-            <input type="text" class="form-control" placeholder="Te Agradeço, Digno é o Senhor..." aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          
-          <label  class="form-label">Nome do Artista </label>
-          <div class="input-group mb-3 artista">
-            <input type="text" class="form-control" placeholder="Gabriela Rocha, Davi Sacer..." aria-label="Username" aria-describedby="basic-addon1">
-          </div>
+        <label class="form-label">Nome do Artista </label>
+        <div class="input-group mb-3 artista">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Gabriela Rocha, Davi Sacer..."
+            aria-label="Nome do Artista"
+          />
+        </div>
 
-          <label  class="form-label">Quem canta?</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Selecione</option>
-            <option value="1">Ana</option>
-            <option value="2">Angela</option>
-            <option value="3">Helimar</option>
-            <option value="4">Hellen</option>
-            <option value="5">Letícia</option>
-            <option value="6">Márcio</option>
-            <option value="7">Milka</option>
-            <option value="8">Susana</option>
-            
-          </select>
+        <label class="form-label">Quem canta?</label>
+        <select class="form-select" aria-label="Selecione o cantor">
+          <option selected>Selecione</option>
+        </select>
 
-          <label  class="form-label">Insira o link do Youtube</label>
-          <div class="input-group mb-3 link">
-            <input type="text" class="form-control" placeholder="https://www.youtube.com/" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <button type="button" class="btn btn-secondary">Adicionar Música</button>
-          
+        <label class="form-label">Insira o link do Youtube</label>
+        <div class="input-group mb-3 link">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="https://www.youtube.com/"
+            aria-label="Link do Youtube"
+          />
+        </div>
+        <button type="button" class="btn btn-secondary">
+          Adicionar Música
+        </button>
+      </section>
     </main>
 
-    <!--Bibliotecas dentro do body-->
-          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-          <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"
-            integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA=="
-            crossorigin="anonymous"
-          ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"
+      integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA=="
+      crossorigin="anonymous"
+    ></script>
 
-          <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/sticky.min.js"
-            integrity="sha512-O5YCLUxCY2OBc4rfpnKUIgE4LGuCiW8CrJ7ty4hvkBAAKUOnlbomEFWd3a6ruRnFvO3LG2wiaGiJ1heOvdppvA=="
-            crossorigin="anonymous"
-          ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/sticky.min.js"
+      integrity="sha512-O5YCLUxCY2OBc4rfpnKUIgE4LGuCiW8CrJ7ty4hvkBAAKUOnlbomEFWd3a6ruRnFvO3LG2wiaGiJ1heOvdppvA=="
+      crossorigin="anonymous"
+    ></script>
 
-          <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    <script src="./bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
 
-          <script src="./bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
-    <!--Script-->
     <script src="./scripts/scripts.js"></script>
-
-   
-
   </body>
-
-</html> 
+</html>

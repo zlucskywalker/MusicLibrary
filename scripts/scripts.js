@@ -1,6 +1,259 @@
-// Ativar o menu mobile
-// Certifique-se de incluir o jQuery antes deste script
-// <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+// scripts/scripts.js
+
+const API_URL = "http://localhost:3000";
+
+// Função auxiliar para extrair o ID do vídeo e criar a URL da thumbnail
+function getThumbnailUrl(youtubeUrl) {
+  if (!youtubeUrl) return "./images/headerCapaM.png";
+
+  let videoId = "";
+  const match = youtubeUrl.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|(?:embed|v)\/))([a-zA-Z0-9_-]{11})/
+  );
+
+  if (match && match[1]) {
+    videoId = match[1];
+  } else {
+    return "./images/headerCapaM.png";
+  }
+
+  return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+}
+
+// ====================================================================
+// FUNÇÕES DE CARREGAMENTO E CADASTRO (Músicas e Formulário)
+// ====================================================================
+
+// Função 1: Carregar Cantores (para o <select> de Adicionar Música)
+async function carregarCantores() {
+  const selectCantores = document.querySelector(
+    ".AdicionarMusica .form-select"
+  );
+
+  try {
+    const response = await fetch(`${API_URL}/cantores`);
+    const cantores = await response.json();
+
+    selectCantores.innerHTML = "<option selected>Selecione</option>";
+
+    cantores.forEach((cantor) => {
+      const option = document.createElement("option");
+      option.value = cantor._id;
+      option.textContent = cantor.nome;
+      selectCantores.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Erro ao carregar cantores:", error);
+  }
+}
+
+// Função 2: Cadastrar Música
+async function adicionarMusica(event) {
+  event.preventDefault();
+
+  const nomeMusica = document.querySelector(".input-group.nome input").value;
+  const nomeArtista = document.querySelector(
+    ".input-group.artista input"
+  ).value;
+  const linkYoutube = document.querySelector(".input-group.link input").value;
+  const selectCantor = document.querySelector(".AdicionarMusica .form-select");
+  const cantorId = selectCantor.value;
+
+  if (cantorId === "Selecione" || !nomeMusica || !nomeArtista || !linkYoutube) {
+    alert("Por favor, preencha todos os campos e selecione um cantor.");
+    return;
+  }
+
+  const dadosMusica = { nomeMusica, nomeArtista, linkYoutube, cantorId };
+
+  try {
+    const response = await fetch(`${API_URL}/musicas`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dadosMusica),
+    });
+
+    const resultado = await response.json();
+
+    if (response.status === 201) {
+      alert(`Música "${resultado.nomeMusica}" adicionada com sucesso!`);
+      // Limpa o formulário
+      document.querySelector(".input-group.nome input").value = "";
+      document.querySelector(".input-group.artista input").value = "";
+      document.querySelector(".input-group.link input").value = "";
+      selectCantor.value = "Selecione";
+
+      carregarMusicas(); // Recarrega a listagem principal
+    } else {
+      alert(`Erro ao adicionar música: ${resultado.erro}`);
+    }
+  } catch (error) {
+    console.error("Erro de conexão ao adicionar música:", error);
+    alert("Erro ao se comunicar com o servidor.");
+  }
+}
+
+// Função 3: Carregar TODAS as Músicas (Listagem Principal) - Com Layout Responsivo
+async function carregarMusicas() {
+  const listagemMusicasSection = document.querySelector(".ListagemMusicas");
+  listagemMusicasSection.innerHTML = "<h1>Listagem de Músicas</h1>";
+
+  try {
+    const response = await fetch(`${API_URL}/musicas`);
+    const musicas = await response.json();
+
+    if (musicas.length === 0) {
+      listagemMusicasSection.innerHTML += "<p>Nenhuma música cadastrada.</p>";
+      return;
+    }
+
+    // CRIAÇÃO DA LINHA RESPONSIVA
+    let rowContainer = document.createElement("div");
+    rowContainer.className = "row justify-content-start";
+
+    musicas.forEach((musica) => {
+      const cantorNome = musica.cantorId ? musica.cantorId.nome : "N/A";
+      const thumbUrl = getThumbnailUrl(musica.linkYoutube);
+
+      // CLASSES DE COLUNA: Garante 4 colunas em XL, 3 em LG, 2 em SM.
+      // D-flex e justify-content-center ajudam a centralizar o card fixo.
+      const colClasses =
+        "col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex justify-content-center";
+
+      // HTML DO CARD: width:
+      const cardHTML = `
+                <div class="${colClasses}">
+                    <div class="card">
+                        <img src="${thumbUrl}" class="card-img-top" alt="Capa da Música do Youtube">
+                        <div class="card-body">
+                            <h5 class="card-title">${musica.nomeMusica}</h5>
+                            <h6>Artista: ${musica.nomeArtista}</h6>
+                            <h6>Cantor: ${cantorNome}</h6>
+                            <a href="${musica.linkYoutube}" target="_blank" class="btn btn-danger">Youtube</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+      rowContainer.innerHTML += cardHTML;
+    });
+
+    listagemMusicasSection.appendChild(rowContainer);
+  } catch (error) {
+    console.error("Erro ao carregar músicas:", error);
+  }
+}
+
+// ====================================================================
+// FUNÇÕES DE FILTRAGEM (Para a seção "Por Cantores")
+// ====================================================================
+
+// Função 4: Renderiza o filtro e adiciona o Listener
+async function popularFiltroCantores() {
+  const filtroSelect = document.getElementById("filtroCantorSelect");
+  if (!filtroSelect) return;
+
+  try {
+    const response = await fetch(`${API_URL}/cantores`);
+    const cantores = await response.json();
+
+    filtroSelect.innerHTML =
+      "<option value='Selecione'>Selecione o Cantor</option>";
+
+    cantores.forEach((cantor) => {
+      const option = document.createElement("option");
+      option.value = cantor._id;
+      option.textContent = cantor.nome;
+      filtroSelect.appendChild(option);
+    });
+
+    // Adiciona o Event Listener que dispara o filtro quando a seleção muda
+    filtroSelect.addEventListener("change", (e) => {
+      const selectedId = e.target.value;
+      const selectedName = e.target.options[e.target.selectedIndex].text;
+
+      filtrarMusicasPorCantor(selectedId, selectedName);
+    });
+  } catch (error) {
+    console.error("Erro ao popular a lista de filtro:", error);
+  }
+}
+
+// Função 5: Busca as músicas filtradas no backend e renderiza - Com Layout Responsivo
+async function filtrarMusicasPorCantor(cantorId, cantorNome) {
+  const porCantoresSection = document.querySelector(".PorCantores");
+
+  // Remove apenas os resultados anteriores (cards e h2)
+  porCantoresSection
+    .querySelectorAll(".row, h2.mt-3, p")
+    .forEach((el) => el.remove());
+
+  if (!cantorId || cantorId === "Selecione") {
+    porCantoresSection.innerHTML += `<h2 class="mt-3">Selecione um cantor para visualizar suas músicas.</h2>`;
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/musicas/cantor/${cantorId}`);
+    const musicas = await response.json();
+
+    // CRIAÇÃO DA LINHA RESPONSIVA
+    let rowContainer = document.createElement("div");
+    rowContainer.className = "row justify-content-start";
+
+    porCantoresSection.innerHTML += `<h2 class="mt-3">Músicas de ${cantorNome}</h2>`;
+
+    if (musicas.length === 0) {
+      porCantoresSection.innerHTML += `<p>Nenhuma música cadastrada para ${cantorNome}.</p>`;
+      return;
+    }
+
+    musicas.forEach((musica) => {
+      const thumbUrl = getThumbnailUrl(musica.linkYoutube);
+
+      // Classes responsivas de coluna
+      const colClasses =
+        "col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex justify-content-center";
+
+      // HTML DO CARD: width:
+      const cardHTML = `
+                <div class="${colClasses}">
+                    <div class="card">
+                        <img src="${thumbUrl}" class="card-img-top" alt="Capa da Música do Youtube">
+                        <div class="card-body">
+                            <h5 class="card-title">${musica.nomeMusica}</h5>
+                            <h6>Artista: ${musica.nomeArtista}</h6>
+                            <a href="${musica.linkYoutube}" target="_blank" class="btn btn-danger">Youtube</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+      rowContainer.innerHTML += cardHTML;
+    });
+
+    porCantoresSection.appendChild(rowContainer);
+  } catch (error) {
+    console.error("Erro ao carregar músicas por cantor:", error);
+    porCantoresSection.innerHTML += `<p>Erro ao buscar músicas do cantor ${cantorNome}.</p>`;
+  }
+}
+
+// ====================================================================
+// INICIALIZAÇÃO E EVENT LISTENERS GERAIS
+// ====================================================================
+
+// Liga o evento de clique ao botão de Adicionar
+document
+  .querySelector(".AdicionarMusica .btn-secondary")
+  .addEventListener("click", adicionarMusica);
+
+// Dispara as funções de carregamento ao carregar a página
+document.addEventListener("DOMContentLoaded", carregarMusicas);
+document.addEventListener("DOMContentLoaded", carregarCantores);
+document.addEventListener("DOMContentLoaded", popularFiltroCantores);
+
+// ====================================================================
+// Lógica do Menu Mobile (jQuery)
+// ====================================================================
 
 function motrarMenu() {
   $("header nav#nav-esq ul#menu-principal").css("display", "flex");
@@ -9,7 +262,6 @@ function motrarMenu() {
   );
 
   $("header nav#nav-esq ul#icone-menu li#menu").css("display", "none");
-
   $("header nav#nav-esq ul#icone-menu li#menux").css("display", "flex");
 }
 
@@ -17,7 +269,6 @@ function esconderMenu() {
   $("header nav#nav-esq ul#menu-principal").css("display", "none");
 
   $("header nav#nav-esq ul#icone-menu li#menu").css("display", "flex");
-
   $("header nav#nav-esq ul#icone-menu li#menux").css("display", "none");
 }
 
