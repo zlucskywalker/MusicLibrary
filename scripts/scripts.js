@@ -1,6 +1,6 @@
 // scripts/scripts.js
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://musiclibrary-qxyl.onrender.com"; 
 
 // Função auxiliar para extrair o ID do vídeo e criar a URL da thumbnail
 function getThumbnailUrl(youtubeUrl) {
