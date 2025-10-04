@@ -142,7 +142,7 @@ async function carregarMusicas() {
       // HTML DO CARD: width: 18rem e height: 100% mantidos
       const cardHTML = `
                 <div class="${colClasses}">
-                    <div class="card" style="width: 18rem; height: 100%;">
+                    <div class="card">
                         <img src="${thumbUrl}" class="card-img-top" alt="Capa da Música do Youtube">
                         <div class="card-body">
                             <h5 class="card-title">${musica.nomeMusica}</h5>
@@ -250,7 +250,7 @@ async function filtrarMusicasPorCantor(cantorId, cantorNome) {
       // HTML DO CARD: width: 18rem mantido
       const cardHTML = `
                 <div class="${colClasses}">
-                    <div class="card" style="width: 18rem; height: 100%;">
+                    <div class="card" >
                         <img src="${thumbUrl}" class="card-img-top" alt="Capa da Música do Youtube">
                         <div class="card-body">
                             <h5 class="card-title">${musica.nomeMusica}</h5>
