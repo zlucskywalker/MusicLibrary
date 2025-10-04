@@ -30,7 +30,6 @@ async function getJsonArray(url) {
   }
 
   if (!Array.isArray(data)) {
-    // Se o backend enviar um objeto (ex: a mensagem de teste), lança um erro para forçar o array.
     console.error("Erro de formato da API. Esperado Array, recebido:", data);
     throw new TypeError(
       "O formato de dados da API está incorreto. Esperada uma lista."
@@ -115,7 +114,7 @@ async function adicionarMusica(event) {
   }
 }
 
-// Função 3: Carregar TODAS as Músicas (Listagem Principal) - Com Layout Responsivo
+// Função 3: Carregar TODAS as Músicas (Listagem Principal) - CORRIGIDA PARA LAYOUT
 async function carregarMusicas() {
   const listagemMusicasSection = document.querySelector(".ListagemMusicas");
   listagemMusicasSection.innerHTML = "<h1>Listagem de Músicas</h1>";
@@ -198,18 +197,21 @@ async function popularFiltroCantores() {
   }
 }
 
-// Função 5: Busca as músicas filtradas no backend e renderiza - Com Layout Responsivo
+// Função 5: Busca as músicas filtradas no backend e renderiza - CORRIGIDA LIMPEZA
 async function filtrarMusicasPorCantor(cantorId, cantorNome) {
   const porCantoresSection = document.querySelector(".PorCantores");
 
   // --- CORREÇÃO: Limpa todos os resultados anteriores (títulos, parágrafos e cards) ---
-  // Mantém apenas o H1 da seção e o SELECT de filtro.
+  // Remove todos os filhos da seção que NÃO são o H1 (título da seção) e o SELECT de filtro.
   Array.from(porCantoresSection.children).forEach((child) => {
     const isHeader = child.tagName === "H1";
-    const isSelectWrapper = child.id === "filtroCantorSelect"; // Verifica o ID do SELECT
+    const isSelect =
+      child.tagName === "SELECT" ||
+      child.id === "filtroCantorSelect" ||
+      child.classList.contains("form-select");
 
     // Remove qualquer elemento que NÃO seja o H1 ou o SELECT
-    if (!isHeader && child.tagName !== "SELECT" && !isSelectWrapper) {
+    if (!isHeader && !isSelect) {
       child.remove();
     }
   });
