@@ -108,3 +108,9 @@ main section.PorCantores h1 {
 /****************
   ADICIONAR MÚSICA
 *****************/
+main section.AdicionarMusica div {
+  max-width: 300px;
+}
+main section.AdicionarMusica select {
+  max-width: 300px;
+}

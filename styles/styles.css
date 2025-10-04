@@ -152,10 +152,16 @@ ADICIONAR MÚSICA
 main section.AdicionarMusica {
   background-color: linear-gradient(to bottom, #a6a6a600, #a6a6a61c, #a6a6a611);
   border-radius: 10px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main section.AdicionarMusica div {
+  max-width: 800px;
 }
 main section.AdicionarMusica h1 {
   font-family: "Noto Sans", sans-serif;
@@ -172,4 +178,33 @@ main section.AdicionarMusica label {
 main section.AdicionarMusica button {
   background-color: #735134;
   border-color: black;
+}
+main section.AdicionarMusica button:hover {
+  background-color: #618c7c;
+  border-color: black;
+  color: white;
+  transition: 0.3s ease-out;
+}
+main section.AdicionarMusica input {
+  background-color: #a6a6a6;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+main section.AdicionarMusica input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #618c7c;
+}
+main section.AdicionarMusica textarea {
+  background-color: #a6a6a6;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+main section.AdicionarMusica select {
+  background-color: #a6a6a6;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  max-width: 800px;
 }
