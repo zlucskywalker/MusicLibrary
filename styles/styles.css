@@ -59,6 +59,7 @@ header nav#nav-esq div#logo {
   font-size: 20px;
   margin-left: 2rem;
   text-align: center;
+  font-family: "Ms Madi", cursive;
 }
 header nav#nav-esq div#logo a:hover {
   border-bottom: 2px solid #618c7c;

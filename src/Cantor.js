@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const CantorSchema = new mongoose.Schema({
-  // Nome do cantor/vocalista que está na sua lista <select>
+  // Nome do cantor/vocalista
   nome: {
     type: String,
     required: true,

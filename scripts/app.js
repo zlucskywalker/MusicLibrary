@@ -9,14 +9,11 @@ const Musica = require("../src/Musica.js");
 
 const app = express();
 
-// =======================================================
-// CORREÇÃO DO CORS (Permite requisições do GitHub Pages)
-// =======================================================
 
-// Sua URL do Frontend no GitHub Pages:
+// URL do github pages
 const allowedOrigins = [
   "https://zlucskywalker.github.io",
-  "http://localhost:3000", // Mantido para testes locais
+  "http://localhost:3000", //  para testes locais
 ];
 
 const corsOptions = {
@@ -30,9 +27,8 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions)); // APLICA o CORS corrigido
-app.use(express.json()); // Middleware para ler JSON nas requisições POST/PUT
-// =======================================================
+app.use(cors(corsOptions)); 
+app.use(express.json()); /
 
 const port = process.env.PORT || 3000;
 
@@ -60,7 +56,7 @@ app.get("/", (req, res) => {
 
 // --- ROTAS DE CANTORES ---
 
-// 1. [R] READ ALL: Listar todos os cantores (Usado para popular os <select>)
+// 1. Listar todos os cantores 
 app.get("/cantores", async (req, res) => {
   try {
     // Usa o .select("nome") para buscar apenas o campo 'nome'
@@ -71,7 +67,7 @@ app.get("/cantores", async (req, res) => {
   }
 });
 
-// 2. [C] CREATE: Adicionar novo cantor
+// 2. CREATE: Adicionar novo cantor
 app.post("/cantores", async (req, res) => {
   try {
     const novoCantor = new Cantor(req.body);
@@ -87,7 +83,7 @@ app.post("/cantores", async (req, res) => {
 
 // --- ROTAS DE MÚSICAS ---
 
-// 3. [R] READ ALL: Listar todas as músicas (Usado pela ListagemMusicas)
+// 3. Listar todas as músicas (Usado pela ListagemMusicas)
 app.get("/musicas", async (req, res) => {
   try {
     // Usa .populate para trazer o nome do cantor referenciado
@@ -98,7 +94,7 @@ app.get("/musicas", async (req, res) => {
   }
 });
 
-// 4. [C] CREATE: Adicionar Música (Usado pelo formulário do frontend)
+// 4. CREATE: Adicionar Música (Usado pelo formulário do frontend)
 app.post("/musicas", async (req, res) => {
   try {
     const novaMusica = new Musica(req.body);
@@ -111,7 +107,7 @@ app.post("/musicas", async (req, res) => {
   }
 });
 
-// 5. [R] READ BY SINGER: Listar músicas por cantor (Usado pelo Filtro 'Por Cantores')
+// 5. Listar músicas por cantor (Usado pelo Filtro 'Por Cantores')
 app.get("/musicas/cantor/:cantorId", async (req, res) => {
   try {
     const musicas = await Musica.find({

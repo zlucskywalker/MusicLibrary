@@ -1,5 +1,6 @@
 // scripts/scripts.js
 
+//URL da API
 const API_URL = "https://musiclibrary-qxyl.onrender.com";
 
 // Função auxiliar para extrair o ID do vídeo e criar a URL da thumbnail
@@ -43,7 +44,7 @@ async function getJsonArray(url) {
 // FUNÇÕES DE CARREGAMENTO E CADASTRO (Músicas e Formulário)
 // ====================================================================
 
-// Função 1: Carregar Cantores (para o <select> de Adicionar Música)
+//1. Carregar Cantores
 async function carregarCantores() {
   const selectCantores = document.querySelector(
     ".AdicionarMusica .form-select"
@@ -68,7 +69,7 @@ async function carregarCantores() {
   }
 }
 
-// Função 2: Cadastrar Música
+//2. Cadastrar Música
 async function adicionarMusica(event) {
   event.preventDefault();
 
@@ -114,7 +115,7 @@ async function adicionarMusica(event) {
   }
 }
 
-// Função 3: Carregar TODAS as Músicas (Listagem Principal) - CORRIGIDA PARA LAYOUT
+//3. Carregar TODAS as Músicas
 async function carregarMusicas() {
   const listagemMusicasSection = document.querySelector(".ListagemMusicas");
   listagemMusicasSection.innerHTML = "<h1>Listagem de Músicas</h1>";
@@ -139,7 +140,7 @@ async function carregarMusicas() {
       const colClasses =
         "col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex justify-content-center";
 
-      // HTML DO CARD: width: 18rem e height: 100% mantidos
+      // HTML DO CARD:
       const cardHTML = `
                 <div class="${colClasses}">
                     <div class="card">
@@ -167,7 +168,7 @@ async function carregarMusicas() {
 // FUNÇÕES DE FILTRAGEM (Para a seção "Por Cantores")
 // ====================================================================
 
-// Função 4: Renderiza o filtro e adiciona o Listener
+//4. Renderiza o filtro e adiciona o Listener
 async function popularFiltroCantores() {
   const filtroSelect = document.getElementById("filtroCantorSelect");
   if (!filtroSelect) return;
@@ -197,12 +198,11 @@ async function popularFiltroCantores() {
   }
 }
 
-// Função 5: Busca as músicas filtradas no backend e renderiza - CORRIGIDA LIMPEZA
+//5. Busca as músicas filtradas no backend e renderiza - CORRIGIDA LIMPEZA
 async function filtrarMusicasPorCantor(cantorId, cantorNome) {
   const porCantoresSection = document.querySelector(".PorCantores");
 
-  // --- CORREÇÃO: Limpa todos os resultados anteriores (títulos, parágrafos e cards) ---
-  // Remove todos os filhos da seção que NÃO são o H1 (título da seção) e o SELECT de filtro.
+  //Correção de limpeza
   Array.from(porCantoresSection.children).forEach((child) => {
     const isHeader = child.tagName === "H1";
     const isSelect =
@@ -215,7 +215,6 @@ async function filtrarMusicasPorCantor(cantorId, cantorNome) {
       child.remove();
     }
   });
-  // --- FIM DA CORREÇÃO DE LIMPEZA ---
 
   if (!cantorId || cantorId === "Selecione") {
     porCantoresSection.innerHTML += `<h2 class="mt-3">Selecione um cantor para visualizar suas músicas.</h2>`;
@@ -229,7 +228,6 @@ async function filtrarMusicasPorCantor(cantorId, cantorNome) {
     let rowContainer = document.createElement("div");
     rowContainer.className = "row justify-content-start";
 
-    // Adicionamos o título H2
     let h2Title = document.createElement("h2");
     h2Title.className = "mt-3";
     h2Title.textContent = `Músicas de ${cantorNome}`;
@@ -247,7 +245,7 @@ async function filtrarMusicasPorCantor(cantorId, cantorNome) {
       const colClasses =
         "col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex justify-content-center";
 
-      // HTML DO CARD: width: 18rem mantido
+      // HTML DO CARD:
       const cardHTML = `
                 <div class="${colClasses}">
                     <div class="card" >
@@ -274,18 +272,18 @@ async function filtrarMusicasPorCantor(cantorId, cantorNome) {
 // INICIALIZAÇÃO E EVENT LISTENERS GERAIS
 // ====================================================================
 
-// Liga o evento de clique ao botão de Adicionar
+//Botão de Adicionar Música
 document
   .querySelector(".AdicionarMusica .btn-secondary")
   .addEventListener("click", adicionarMusica);
 
-// Dispara as funções de carregamento ao carregar a página
+//Chamamento de funções de carregamento de dados
 document.addEventListener("DOMContentLoaded", carregarMusicas);
 document.addEventListener("DOMContentLoaded", carregarCantores);
 document.addEventListener("DOMContentLoaded", popularFiltroCantores);
 
 // ====================================================================
-// Lógica do Menu Mobile (jQuery)
+// Lógica do Menu Mobile
 // ====================================================================
 
 function motrarMenu() {

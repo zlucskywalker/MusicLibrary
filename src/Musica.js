@@ -5,6 +5,7 @@ const MusicaSchema = new mongoose.Schema({
   nomeMusica: {
     type: String,
     required: true,
+    unique: true, // Garante que não teremos músicas duplicadas
     trim: true,
   },
   // Nome do Artista Original (Ex: Gabriela Rocha, Davi Sacer)
@@ -17,6 +18,7 @@ const MusicaSchema = new mongoose.Schema({
   linkYoutube: {
     type: String,
     required: true,
+    unique: true, // Garante que não teremos links duplicados
     trim: true,
   },
   // Referência ao Cantor/Vocalista que irá cantar
