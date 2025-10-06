@@ -194,7 +194,7 @@ async function popularFiltroCantores() {
       filtrarMusicasPorCantor(selectedId, selectedName);
     });
   } catch (error) {
-    console.error("Erro ao popular a lista de filtro:", error);
+    console.error("Erro ao carregar a lista de filtro:", error);
   }
 }
 
