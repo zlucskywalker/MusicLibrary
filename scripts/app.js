@@ -9,7 +9,6 @@ const Musica = require("../src/Musica.js");
 
 const app = express();
 
-
 // URL do github pages
 const allowedOrigins = [
   "https://zlucskywalker.github.io",
@@ -27,8 +26,8 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions)); 
-app.use(express.json()); /
+app.use(cors(corsOptions));
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
@@ -56,7 +55,7 @@ app.get("/", (req, res) => {
 
 // --- ROTAS DE CANTORES ---
 
-// 1. Listar todos os cantores 
+// 1. Listar todos os cantores
 app.get("/cantores", async (req, res) => {
   try {
     // Usa o .select("nome") para buscar apenas o campo 'nome'
@@ -83,11 +82,14 @@ app.post("/cantores", async (req, res) => {
 
 // --- ROTAS DE MÚSICAS ---
 
-// 3. Listar todas as músicas (Usado pela ListagemMusicas)
+// 3. Listar todas as músicas (Usado pela ListagemMusicas) - ORDENAÇÃO AQUI
 app.get("/musicas", async (req, res) => {
   try {
-    // Usa .populate para trazer o nome do cantor referenciado
-    const musicas = await Musica.find().populate("cantorId", "nome");
+    // Adiciona .sort({ nomeMusica: 1 }) para ordenar A-Z
+    const musicas = await Musica.find()
+      .populate("cantorId", "nome")
+      .sort({ nomeMusica: 1 }); // <--- CORRIGIDO: ORDENAÇÃO ALFABÉTICA
+
     res.json(musicas);
   } catch (err) {
     res.status(500).json({ erro: "Erro ao buscar músicas." });
@@ -107,12 +109,16 @@ app.post("/musicas", async (req, res) => {
   }
 });
 
-// 5. Listar músicas por cantor (Usado pelo Filtro 'Por Cantores')
+// 5. Listar músicas por cantor (Usado pelo Filtro 'Por Cantores') - ORDENAÇÃO AQUI
 app.get("/musicas/cantor/:cantorId", async (req, res) => {
   try {
+    // Adiciona .sort({ nomeMusica: 1 }) para ordenar A-Z
     const musicas = await Musica.find({
       cantorId: req.params.cantorId,
-    }).populate("cantorId", "nome"); // Traz o nome do cantor
+    })
+      .populate("cantorId", "nome")
+      .sort({ nomeMusica: 1 }); // <--- CORRIGIDO: ORDENAÇÃO ALFABÉTICA
+
     res.json(musicas);
   } catch (err) {
     res.status(500).json({ erro: "Erro ao buscar músicas do cantor." });

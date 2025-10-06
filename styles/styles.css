@@ -137,7 +137,6 @@ main section h1 {
 main section.PorCantores {
   background-color: linear-gradient(to bottom, #a6a6a600, #a6a6a61c, #a6a6a611);
   border-radius: 10px;
-  backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   margin-top: 3rem;
